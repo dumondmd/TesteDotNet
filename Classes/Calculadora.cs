@@ -8,17 +8,13 @@ namespace Classes
         double num2;
         double resulfinal;
         double[] parametrosinfito;
+        double[] parametrosinfitomed;
+        double[] parametrospares;
+        double somamedia;
         string operador;
 
         public void operacoes(string expresao)
         {
-            Console.WriteLine("INÍCIO");
-            Console.WriteLine("Seja bem vindo!!!");
-            Console.WriteLine("_=Calculadora=_\n");            
-            Console.WriteLine("Operações: soma, subtração, multiplicação, divisão");
-            Console.WriteLine("Ex.:\n10;+;20");
-
-            Console.WriteLine(expresao);
 
             string[] parametros = expresao.Split(';');
             if (parametros.Length == 3)
@@ -30,7 +26,9 @@ namespace Classes
                 }
                 catch (Exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Erro na conversão do primeiro valor!");
+                    Console.ResetColor();
                 }
 
                 try
@@ -39,7 +37,9 @@ namespace Classes
                 }
                 catch (Exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Erro na conversão do operador!");
+                    Console.ResetColor();
                 }
 
                 try
@@ -48,8 +48,9 @@ namespace Classes
                 }
                 catch (Exception)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Erro na conversãodo segundo valor!");
-
+                    Console.ResetColor();
                 }
                 if (operador == "+" || operador == "Soma")
                 {
@@ -65,18 +66,24 @@ namespace Classes
                 }
                 else if (operador == "/" || operador == "Divisão")
                 {
-                    if(num2 != 0){
+                    if (num2 != 0)
+                    {
                         resulfinal = divisao(num1, num2);
-                    } else {
-                        Console.WriteLine("Erro divisão por 0");                      
                     }
-                    
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Erro divisão por 0");
+                        Console.ResetColor();
+                    }
+
 
                 }
                 else
                 {
-                    //Lançar exceção
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Operador inválido");
+                    Console.ResetColor();
                 }
 
             }
@@ -86,8 +93,7 @@ namespace Classes
                 string[] expresaovet = expresao.Split(';');
                 parametrosinfito = new double[expresaovet.Length];
                 for (int i = 0; i < expresaovet.Length; i++)
-                {   //Tentar converter o vetor de string no vetor de double
-                    Console.WriteLine(expresaovet[i] + " - " + expresaovet.Length);
+                {   //Tentar converter o vetor de string no vetor de double                    
                     try
                     {
                         parametrosinfito[i] = Convert.ToDouble(expresaovet[i]);
@@ -104,7 +110,6 @@ namespace Classes
 
             Console.WriteLine(resulfinal);
 
-            Console.WriteLine("FIM");
         }
 
         //Soma
@@ -151,13 +156,64 @@ namespace Classes
         }
 
         //Calculo de média inlimitada de elementos
-        private double calcMediaInlimitElemen()
+        public void calcMediaInlimitElemen(string elemed)
         {
-            return 0.0;
+            string[] expresaovet = elemed.Split(';');
+            double media;
+            double qtd = expresaovet.Length;
+
+            parametrosinfitomed = new double[expresaovet.Length];
+            for (int i = 0; i < expresaovet.Length; i++)
+            {   //Tentar converter o vetor de string no vetor de double                    
+                try
+                {
+                    parametrosinfitomed[i] = Convert.ToDouble(expresaovet[i]);
+                    somamedia += parametrosinfitomed[i];
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
+            if (qtd > 0)
+            {
+                media = somamedia / qtd;
+                Console.WriteLine("A média é: " + media);
+
+            }
+            else
+            {
+                Console.WriteLine("Digite pelo menos um elemento para o calculo da média!");
+            }
         }
 
-        //ArquivoTexto
+        //Calculo números pares inlimitado
+        public void calcSomaPares(string elementpar)
+        {
+            double somapares = 0;
+            string[] elementospares = elementpar.Split(';');
+            parametrospares = new double[elementospares.Length];
 
+            for (int i = 0; i < elementospares.Length; i++)
+            { //Tentar converter o vetor de string no vetor de double           
+                try
+                {
+                    parametrospares[i] = Convert.ToDouble(elementospares[i]);
+
+                    if (parametrospares[i] % 2 == 0)
+                    {
+                        somapares += parametrospares[i];
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+
+            }
+            Console.WriteLine("A soma de todos os pares é: " + somapares);
+
+        }
 
     }
 }
